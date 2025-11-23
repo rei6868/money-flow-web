@@ -2,7 +2,7 @@ import React from 'react'
 import { formatCurrency, formatDate } from '../../utils/formatting'
 import clsx from 'clsx'
 
-export const DebtsTable = ({ debts, loading }) => {
+export const DebtsTable = ({ debts, loading, onAddRepayment }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -47,12 +47,20 @@ export const DebtsTable = ({ debts, loading }) => {
                 <h3 className="font-semibold text-gray-900">{debt.person_name || 'Unknown'}</h3>
                 <p className="text-xs text-gray-500">{debt.period_tag}</p>
               </div>
-              <span className={clsx(
-                'px-3 py-1 rounded-full text-xs font-medium border',
-                getStatusBadge(debt.status)
-              )}>
-                {debt.status.replace('_', ' ')}
-              </span>
+              <div className="flex flex-col items-end gap-2">
+                <span className={clsx(
+                  'px-3 py-1 rounded-full text-xs font-medium border',
+                  getStatusBadge(debt.status)
+                )}>
+                  {debt.status.replace('_', ' ')}
+                </span>
+                <button
+                  onClick={() => onAddRepayment?.(debt)}
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
+                  Add Repayment
+                </button>
+              </div>
             </div>
 
             {/* Progress Bar */}
